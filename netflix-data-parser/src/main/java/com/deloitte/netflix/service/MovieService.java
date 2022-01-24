@@ -38,6 +38,7 @@ public class MovieService {
 					if (loopCount >= numberOfRecordToFetch) {
 						break;
 					}
+					// Accessing Values by Column Index
 					String type = csvRecord.get(1);
 					if (type.equals("TV Show")) {
 						loopCount++;
@@ -49,8 +50,9 @@ public class MovieService {
 					}
 
 				}
+				// for movies type is Horror
 				if (movieType != null && movieType.equals("horror")) {
-
+					// Accessing Values by Column Index
 					String listed_in = csvRecord.get(10);
 					if (listed_in.contains("Horror Movies")) {
 						Movie movie = new Movie(csvRecord.get(0), csvRecord.get(1), csvRecord.get(2), csvRecord.get(3),
@@ -60,7 +62,9 @@ public class MovieService {
 						movies.add(movie);
 					}
 				}
+				// for TV show = Country :India
 				if (country != null && country.equals("India")) {
+					// Accessing Values by Column Index
 					String countryFromCSV = csvRecord.get(5);
 					if (countryFromCSV.equals("India")) {
 						Movie movie = new Movie(csvRecord.get(0), csvRecord.get(1), csvRecord.get(2), csvRecord.get(3),
@@ -70,18 +74,18 @@ public class MovieService {
 						movies.add(movie);
 					}
 				}
+				//For TV shows : Start Date & End Date
 				if (startDate != null && endDate != null) {
 					Date startDateCSV = null;
 					Date endDateCSV = null;
 					Date formated_date_added = null;
-					recordNo ++;
+					recordNo++;
 					SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 					SimpleDateFormat format2 = new SimpleDateFormat("MMMM dd, yyyy");
 					if (null != startDate && startDate.trim().length() > 0) {
 						try {
 							startDateCSV = format.parse(startDate);
 						} catch (ParseException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -89,7 +93,6 @@ public class MovieService {
 						try {
 							endDateCSV = format.parse(endDate);
 						} catch (ParseException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -100,12 +103,10 @@ public class MovieService {
 							formated_date_added = format2.parse(date_added);
 						}
 					} catch (ParseException e1) {
-						// TODO Auto-generated catch block
 						// e1.printStackTrace();
-						//System.out.print("");
 					}
-					
-					if ((recordNo > 1) && (formated_date_added != null) && (formated_date_added.compareTo(startDateCSV) > 0)
+					if ((recordNo > 1) && (formated_date_added != null)
+							&& (formated_date_added.compareTo(startDateCSV) > 0)
 							&& (formated_date_added.compareTo(endDateCSV) < 0)) {
 						Movie movie = new Movie(csvRecord.get(0), csvRecord.get(1), csvRecord.get(2), csvRecord.get(3),
 								csvRecord.get(4), csvRecord.get(5), csvRecord.get(6), csvRecord.get(7),
@@ -119,20 +120,16 @@ public class MovieService {
 			e.printStackTrace();
 		} finally {
 			closeCsvParser(csvParser);
-
 		}
 		return movies;
 	}
-
 	private static void closeCsvParser(CSVParser csvParser) {
 		if (null != csvParser) {
 			try {
 				csvParser.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
-
 }
